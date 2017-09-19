@@ -28,15 +28,15 @@ public class Tile {
 		switch(type) {
 			case Immutable:
 				hardness = 100;
-				displayAs = '#';
+				displayAs = '@';
 				break;
 			case Closed:
 				hardness = new Random().nextInt() % 99 + 1;
-				displayAs = '*';
+				displayAs = '#';
 				break;
 			default:
 				hardness = 0;
-				displayAs = ' ';
+				displayAs = '.';
 				break;
 		}
 	}

@@ -1,5 +1,7 @@
 package com.sbg.aventura.factory;
 
+import java.util.Random;
+
 import com.sbg.aventura.object.GameMap;
 import com.sbg.aventura.object.components.Tile;
 import com.sbg.aventura.object.components.Tile.TileType;
@@ -8,6 +10,7 @@ public class MapFactory {
 	
 	public static GameMap generateMap() {
 		GameMap m = new GameMap();
+		Random ng = new Random(); 
 		
 		int[] dims = m.getDims();
 		
@@ -15,13 +18,16 @@ public class MapFactory {
 			for(int i = 0; i<dims[0]; i++) {
 				if(i == 0 || j == 0 || i == dims[0]-1 || j == dims[1]-1) m.setTile(new Tile(TileType.Immutable), i, j);
 				else m.setTile(new Tile(TileType.Closed), i, j);
-				
-				System.out.print(m.getTile(i, j).print());
 			}
-			System.out.print('\n');
 		}
 		
+		int numRooms = 9 + ng.nextInt(10);
+		int placedRooms = 0;
 		
+		while(placedRooms != numRooms) {
+			boolean result = m.placeRoom(8+ng.nextInt(8), 5+ng.nextInt(7), ng.nextInt(dims[0]), ng.nextInt(dims[1]));
+			if(result) placedRooms++;
+		}
 		
 		return m;
 	}

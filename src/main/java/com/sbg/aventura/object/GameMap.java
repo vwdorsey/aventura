@@ -1,35 +1,67 @@
 package com.sbg.aventura.object;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import com.sbg.aventura.object.components.Room;
 import com.sbg.aventura.object.components.Tile;
+import com.sbg.aventura.object.components.Tile.TileType;
+import com.sbg.aventura.util.between;
 
 public class GameMap {
 	private Tile[][] layout;
-	private int x_bound;
-	private int y_bound;
+	private ArrayList<Room> rooms;
+	private int boundX;
+	private int boundY;
 	
 	public GameMap() {
-		x_bound = 160;
-		y_bound = 96;
-		layout = new Tile[x_bound][y_bound];
+		boundX = 160;
+		boundY = 96;
+		layout = new Tile[boundX][boundY];
+		rooms = new ArrayList<>();
 	}
 	
 	public GameMap(int x, int y) {
-		x_bound = x;
-		y_bound = y;
-		layout = new Tile[x_bound][y_bound];
+		boundX = x;
+		boundY = y;
+		layout = new Tile[boundX][boundY];
+		rooms = new ArrayList<>();
 	}
 	
 	public Tile getTile(int x, int y) {
-		if(x >= x_bound || y >= y_bound || x < 0 || y < 0) return null;
+		if(x >= boundX || y >= boundY || x < 0 || y < 0) return null;
 		else return layout[x][y];
 	}
 	
 	public void setTile(Tile t, int x, int y) {
-		if(t == null || x >= x_bound || y >= y_bound || x < 0 || y < 0) return;
+		if(t == null || x >= boundX || y >= boundY || x < 0 || y < 0) return;
 		else layout[x][y] = t;
 	}
 	
 	public int[] getDims() {
-		return new int[] {x_bound, y_bound};
+		return new int[] {boundX, boundY};
+	}
+	
+	public boolean placeRoom(int lenX, int lenY, int firstX, int firstY) {
+		if( !between.isBetween(firstX,0,boundX) || !between.isBetween(firstY,0,boundY)) return false;
+		else if(firstX + lenX >= boundX || firstX + lenY >= boundY) return false;
+		else {
+			for(int x = firstX; x < firstX + lenX; x++) {
+				for(int y = firstY; y < firstY + lenY; y++) {
+					if(between.isBetween(x, firstX, firstX + lenX) || between.isBetween(y, firstY, firstY + lenY)) setTile(new Tile(TileType.Open),x,y);
+				}
+			}
+			rooms.add(new Room(firstX, firstY, lenX, lenY));
+			return true;
+		}
+	}
+	
+	public void printMap() {
+		for(int i = 0; i < boundY; i++) {
+			for(int j = 0; j < boundX; j++) {
+				System.out.print(getTile(j,i).print());
+			}
+			System.out.print('\n');
+		}
 	}
 }
