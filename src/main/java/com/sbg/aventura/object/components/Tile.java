@@ -31,7 +31,7 @@ public class Tile {
 				displayAs = '@';
 				break;
 			case Closed:
-				hardness = new Random().nextInt() % 99 + 1;
+				hardness = new Random().nextInt(99) + 1;
 				displayAs = '#';
 				break;
 			default:
@@ -39,6 +39,11 @@ public class Tile {
 				displayAs = '.';
 				break;
 		}
+	}
+	
+	public boolean isType(TileType t) {
+		if(this.type == t) return true;
+		else return false;
 	}
 	
 	public char print() {

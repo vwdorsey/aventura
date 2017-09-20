@@ -8,21 +8,21 @@ import com.sbg.aventura.object.components.Tile.TileType;
 public class TileTest {
 	@Test
 	public void testEdgeTile() {
-		Tile t = new Tile(TileType.Empty);
+		Tile t = new Tile(TileType.Open);
 	}
 	
 	@Test
 	public void testEmptyTile() {
-		Tile t = new Tile(TileType.Empty);
+		Tile t = new Tile(TileType.Open);
 	}
 	
 	@Test
 	public void testWallTile() {
-		Tile t = new Tile(TileType.Empty);
+		Tile t = new Tile(TileType.Open);
 	}
 	
 	@Test
 	public void testFloorTile() {
-		Tile t = new Tile(TileType.Empty);
+		Tile t = new Tile(TileType.Open);
 	}
 }

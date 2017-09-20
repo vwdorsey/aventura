@@ -21,11 +21,11 @@ public class MapFactory {
 			}
 		}
 		
-		int numRooms = 9 + ng.nextInt(10);
+		int numRooms = 12 + ng.nextInt(9);
 		int placedRooms = 0;
 		
 		while(placedRooms != numRooms) {
-			boolean result = m.placeRoom(8+ng.nextInt(8), 5+ng.nextInt(7), ng.nextInt(dims[0]), ng.nextInt(dims[1]));
+			boolean result = m.placeRoom(10+ng.nextInt(11), 5+ng.nextInt(16), ng.nextInt(dims[0]), ng.nextInt(dims[1]));
 			if(result) placedRooms++;
 		}
 		
