@@ -3,8 +3,10 @@ package com.sbg.aventura.factory;
 import java.util.Random;
 
 import com.sbg.aventura.object.GameMap;
+import com.sbg.aventura.object.components.Room;
 import com.sbg.aventura.object.components.Tile;
 import com.sbg.aventura.object.components.Tile.TileType;
+import com.sbg.aventura.util.between;
 
 public class MapFactory {
 	
@@ -25,11 +27,39 @@ public class MapFactory {
 		int placedRooms = 0;
 		
 		while(placedRooms != numRooms) {
-			boolean result = m.placeRoom(10+ng.nextInt(11), 5+ng.nextInt(16), ng.nextInt(dims[0]), ng.nextInt(dims[1]));
-			if(result) placedRooms++;
+			int lenX = 10+ng.nextInt(11);
+			int lenY = 5+ng.nextInt(16);
+			int firstX = ng.nextInt(dims[0]);
+			int firstY = ng.nextInt(dims[1]);
+			if( !between.isBetween(firstX,0,dims[0]) || !between.isBetween(firstY,0,dims[1])) continue;
+			else if(firstX + lenX >= dims[0] || firstY + lenY >= dims[1]) continue;
+			else if(firstX - 5 <= 0 || firstY - 5 <= 0) continue;
+			else {
+				if(!roomPlacementCheck(firstX,firstY,lenX,lenY,m)) continue;
+				else {
+					for(int x = firstX; x < firstX + lenX; x++) {
+						for(int y = firstY; y < firstY + lenY; y++) {
+							if(between.isBetweenWithEnds(x, firstX, firstX + lenX) || between.isBetweenWithEnds(y, firstY, firstY + lenY)) m.setTile(new Tile(TileType.Open),x,y);
+						}
+					}
+					m.addRoomInfo(new Room(firstX, firstY, lenX, lenY));
+					placedRooms++;
+				}
+			}
 		}
+		
+		// Path Generation should go here. Connect all the rooms to each other. Shouldn't be hard.
+		// Either use the old algo from the C code or dijkstra's to make the path.
 		
 		return m;
 	}
 	
+	private static boolean roomPlacementCheck(int sX, int sY, int lX, int lY, GameMap m) {
+		for(int x = sX - 5; x <= sX+lX+5; x++) {
+			for(int y = sY - 5; y <=sY+lY+5; y++) {
+				if(!m.getTile(x,y).isType(TileType.Closed)) return false;
+			}
+		}
+		return true;
+	}
 }

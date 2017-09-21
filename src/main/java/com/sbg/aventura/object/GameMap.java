@@ -41,33 +41,6 @@ public class GameMap {
 	public int[] getDims() {
 		return new int[] {boundX, boundY};
 	}
-	
-	public boolean placeRoom(int lenX, int lenY, int firstX, int firstY) {
-		if( !between.isBetween(firstX,0,boundX) || !between.isBetween(firstY,0,boundY)) return false;
-		else if(firstX + lenX >= boundX || firstY + lenY >= boundY) return false;
-		else if(firstX - 5 <= 0 || firstY - 5 <= 0) return false;
-		else {
-			if(!roomPlacementCheck(firstX,firstY,lenX,lenY)) return false;
-			else {
-				for(int x = firstX; x < firstX + lenX; x++) {
-					for(int y = firstY; y < firstY + lenY; y++) {
-						if(between.isBetweenWithEnds(x, firstX, firstX + lenX) || between.isBetweenWithEnds(y, firstY, firstY + lenY)) setTile(new Tile(TileType.Open),x,y);
-					}
-				}
-				rooms.add(new Room(firstX, firstY, lenX, lenY));
-				return true;
-			}
-		}
-	}
-	
-	private boolean roomPlacementCheck(int sX, int sY, int lX, int lY) {
-		for(int x = sX - 5; x <= sX+lX+5; x++) {
-			for(int y = sY - 5; y <=sY+lY+5; y++) {
-				if(!getTile(x,y).isType(TileType.Closed)) return false;
-			}
-		}
-		return true;
-	}
 
 	public void printMap() {
 		for(int i = 0; i < boundY; i++) {
@@ -76,5 +49,9 @@ public class GameMap {
 			}
 			System.out.print('\n');
 		}
+	}
+
+	public void addRoomInfo(Room room) {
+		rooms.add(room);
 	}
 }
