@@ -48,8 +48,8 @@ public class MapFactory {
 			}
 		}
 		
-		// Path Generation should go here. Connect all the rooms to each other. Shouldn't be hard.
-		// Either use the old algo from the C code or dijkstra's to make the path.
+		// Path Generation will go to the PathFactory to be used for both path generation and monster routing later.
+		// Will implement dijkstras.
 		
 		return m;
 	}
